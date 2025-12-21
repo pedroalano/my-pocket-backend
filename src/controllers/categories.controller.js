@@ -24,7 +24,10 @@ module.exports = {
 
   async getCategoryById(req, res) {
     try {
-      const category = await categoriesService.getCategoryById(req.params.id);
+      const category = await categoriesService.getCategoryById(
+        req.user.id,
+        req.params.id
+      );
       if (category) {
         res.status(200).json(category);
       } else {
@@ -38,6 +41,7 @@ module.exports = {
   async updateCategory(req, res) {
     try {
       const updatedCategory = await categoriesService.updateCategory(
+        req.user.id,
         req.params.id,
         req.body
       );
@@ -53,7 +57,10 @@ module.exports = {
 
   async deleteCategory(req, res) {
     try {
-      const deleted = await categoriesService.deleteCategory(req.params.id);
+      const deleted = await categoriesService.deleteCategory(
+        req.user.id,
+        req.params.id
+      );
       if (deleted) {
         res.status(204).send();
       } else {
