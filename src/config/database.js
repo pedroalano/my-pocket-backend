@@ -54,4 +54,26 @@ module.exports = {
       return transactions.splice(index, 1)[0];
     },
   },
+  budget: {
+    create: async ({ data }) => {
+      // Mock budget creation
+      return { id: Date.now().toString(), ...data };
+    },
+    findMany: async ({ where }) => {
+      // Mock budget data
+      return [{ id: "1", userId: where.userId, total: 1000, spent: 400 }];
+    },
+    findUnique: async ({ where }) => {
+      // Mock budget data
+      return { id: where.userId, total: 1000, spent: 400 };
+    },
+    update: async ({ where, data }) => {
+      // Mock budget update
+      return { id: where.userId, ...data };
+    },
+    delete: async ({ where }) => {
+      // Mock budget deletion
+      return { id: where.userId };
+    },
+  },
 };
