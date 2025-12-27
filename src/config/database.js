@@ -1,5 +1,6 @@
 const categories = [];
 const transactions = [];
+const budgets = [];
 
 module.exports = {
   category: {
@@ -56,24 +57,24 @@ module.exports = {
   },
   budget: {
     create: async ({ data }) => {
-      // Mock budget creation
-      return { id: Date.now().toString(), ...data };
+      const newBudget = { id: Date.now().toString(), ...data };
+      budgets.push(newBudget);
+      return newBudget;
     },
     findMany: async ({ where }) => {
-      // Mock budget data
-      return [{ id: "1", userId: where.userId, total: 1000, spent: 400 }];
+      return budgets.filter((b) => b.userId === where.userId);
     },
     findUnique: async ({ where }) => {
-      // Mock budget data
-      return { id: where.userId, total: 1000, spent: 400 };
+      return budgets.find((b) => b.id === where.id);
     },
     update: async ({ where, data }) => {
-      // Mock budget update
-      return { id: where.userId, ...data };
+      const index = budgets.findIndex((b) => b.id === where.id);
+      budgets[index] = { ...budgets[index], ...data };
+      return budgets[index];
     },
     delete: async ({ where }) => {
-      // Mock budget deletion
-      return { id: where.userId };
+      const index = budgets.findIndex((b) => b.id === where.id);
+      return budgets.splice(index, 1)[0];
     },
   },
 };

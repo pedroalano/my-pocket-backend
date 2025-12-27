@@ -1,8 +1,8 @@
 const budget = require("../repositories/budget.repository");
 const categoryRepository = require("../repositories/category.repository");
 
-function validateBudgetInput({ amount, categoryId, period }) {
-  if (amount == null || !categoryId || !period) {
+function validateBudgetInput({ amount, categoryId, year, month }) {
+  if (amount == null || !categoryId || !year || !month) {
     throw new Error("Amount, categoryId, and period are required");
   }
 
@@ -15,6 +15,7 @@ module.exports = {
   async createBudget(userId, data) {
     validateBudgetInput(data);
 
+    console.log("Creating budget with data:", data);
     // Verify category belongs to user
     const category = await categoryRepository.findById(data.categoryId);
     if (!category || category.userId !== userId) {
@@ -25,7 +26,8 @@ module.exports = {
       userId,
       amount: data.amount,
       categoryId: data.categoryId,
-      period: data.period,
+      year: data.year,
+      month: data.month,
     });
   },
 
