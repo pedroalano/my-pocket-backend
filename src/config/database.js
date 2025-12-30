@@ -1,6 +1,7 @@
 const categories = [];
 const transactions = [];
 const budgets = [];
+const users = [];
 
 module.exports = {
   category: {
@@ -75,6 +76,31 @@ module.exports = {
     delete: async ({ where }) => {
       const index = budgets.findIndex((b) => b.id === where.id);
       return budgets.splice(index, 1)[0];
+    },
+  },
+  user: {
+    create: async ({ data }) => {
+      const newUser = { id: Date.now().toString(), ...data };
+      users.push(newUser);
+      return newUser;
+    },
+    findMany: async () => {
+      return users;
+    },
+    findUnique: async ({ where }) => {
+      return users.find((u) => u.id === where.id);
+    },
+    findByEmail: async ({ email }) => {
+      return users.find((u) => u.email === email);
+    },
+    update: async ({ where, data }) => {
+      const index = users.findIndex((u) => u.id === where.id);
+      users[index] = { ...users[index], ...data };
+      return users[index];
+    },
+    delete: async ({ where }) => {
+      const index = users.findIndex((u) => u.id === where.id);
+      return users.splice(index, 1)[0];
     },
   },
 };
